@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bomb Defusal - Game</title>
+  <link rel="stylesheet" href="style.css" />
+
+</head>
+<body>
+  <h2>Defuse the Bombs</h2>
+  <p>Click a block to enter its clue number!</p>
+
+  <div>
+    <!-- Each button sends the block number -->
+    <form action="/clue-page" method="GET">
+      <button name="block" value="1">Bomb 1</button>
+      <button name="block" value="2">Bomb 2</button>
+      <button name="block" value="3">Bomb 3</button>
+      <button name="block" value="4">Bomb 4</button>
+      <button name="block" value="5">Bomb 5</button>
+      <button name="block" value="6">Bomb 6</button>
+      <button name="block" value="7">Bomb 7</button>
+      <button name="block" value="8">Bomb 8</button>
+      <button name="block" value="9">Bomb 9</button>
+      <button name="block" value="10">Bomb 10</button>
+    </form>
+  </div>
+  <a href="/rules.html"><button>Back</button></a>
+</body>
+</html>

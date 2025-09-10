@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Enter Clue</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h2 id="block-title">Block X - Enter Clue Number</h2>
+
+  <form action="/verify-clue" method="POST">
+    <input type="hidden" name="blockNumber" id="blockNumber" value="" />
+    <label>Enter Clue Number:</label>
+    <input type="text" name="enteredCode" required />
+    <button type="submit">Submit</button>
+  </form>
+
+  <br>
+  <a href="/game.html"><button>Back to Bombs</button></a>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const block = params.get('block');
+
+    document.getElementById('block-title').innerText = `Block ${block} - Enter Clue Number`;
+    document.getElementById('blockNumber').value = block;
+  </script>
+</body>
+</html>

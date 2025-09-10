@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bomb Defusal - Map</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <!-- <link rel="stylesheet" href="style.css" /> -->
+   <style>
+    /* Ensure full width and fixed height for the map */
+    #map {
+      width: 100%;
+      height: 80vh;
+    }
+  </style>
+</head>
+<body>
+  <h2>Bomb Defusal - Map</h2>
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const coords = params.get("coords");      // Bomb coordinates: "lat,lng"
+    const username = params.get("team");     // Team username
+    const blockNumber = params.get("block"); // Block number
+
+    const [targetLat, targetLng] = coords.split(",").map(Number);
+
+    const map = L.map("map").setView([targetLat, targetLng], 15);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: 'Map data © OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Bomb location marker
+    L.marker([targetLat, targetLng]).addTo(map)
+      .bindPopup("📍 Bomb Location").openPopup();
+
+    let userMarker;
+    let pathLine;
+
+    navigator.geolocation.watchPosition(position => {
+      const userLat = position.coords.latitude;
+      const userLng = position.coords.longitude;
+
+      if (userMarker) userMarker.remove();
+      if (pathLine) pathLine.remove();
+
+      // Show user's current location
+      userMarker = L.marker([userLat, userLng]).addTo(map)
+        .bindPopup("🔵 Your Current Location").openPopup();
+
+      // Draw path line from user to bomb
+      pathLine = L.polyline([[userLat, userLng], [targetLat, targetLng]], { color: 'red' }).addTo(map);
+
+      const distance = map.distance([userLat, userLng], [targetLat, targetLng]);
+
+      if (distance <= 150 && !document.getElementById("verification-popup")) {
+        const popup = document.createElement("div");
+        popup.id = "verification-popup";
+        popup.innerHTML = `
+          <h3>🎯 You're near the bomb! Enter Final Verification Code:</h3>
+          <form action="/verify-final-code" method="POST">
+            <input type="hidden" name="username" value="${username}" />
+            <input type="hidden" name="blockNumber" value="${blockNumber}" />
+            <input type="text" name="finalCode" required placeholder="Enter Final Code" />
+            <button type="submit">Submit</button>
+          </form>
+        `;
+        document.body.appendChild(popup);
+      }
+
+    }, err => {
+      console.error("📡 Geolocation error:", err);
+    });
+  </script>
+
+  <a href="/game.html"><button>Back</button></a>
+</body>
+</html>

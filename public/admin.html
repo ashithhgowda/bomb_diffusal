@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin - Bomb Defusal</title>
+  <link rel="stylesheet" href="style.css" />
+
+</head>
+<body>
+  <h2>Admin Dashboard</h2>
+
+  <!-- Team Creation Form -->
+  <h3>Create Team</h3>
+  <form action="/register-team" method="POST">
+    <label>Team Username:</label>
+    <input type="text" name="username" required><br><br>
+
+    <label>Password:</label>
+    <input type="password" name="password" required><br><br>
+
+    <button type="submit">Create Team</button>
+  </form>
+
+  <br><br>
+
+  <!-- View All Registered Teams -->
+  <h3>All Registered Teams</h3>
+  <a href="/view-teams"><button>View Team List</button></a>
+
+  <br><br>
+
+  <!-- View Team Progress -->
+  <h3>Teams Progress Details</h3>
+  <a href="/admin-dashboard"><button>View Teams Progress</button></a>
+
+  <br><br>
+  <a href="/"><button>Back to Login</button></a>
+</body>
+</html>
